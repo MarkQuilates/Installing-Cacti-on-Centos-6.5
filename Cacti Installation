@@ -1,0 +1,438 @@
+﻿Cacti tool is an open source web based network monitoring and system monitoring graphing solution for IT business. Cacti enables a user to poll services at regular intervals to create graphs on resulting data using RRDtool. Generally, it is used to graph time-series data of metrics such as network bandwidth utilization, CPU load, running processes, disk space etc.
+
+Install Cacti in Linux
+Install Cacti in RHEL / CentOS / Fedora
+In this how-to we are going to show you how to install and setup complete network monitoring application called Cacti using Net-SNMP tool on RHEL 7.x/6.x/5.x, CentOS 7.x/6.x/5.x and Fedora 24-12 systems using YUM and DNF (Fedora 23 onwards) package manager tool.
+
+Cacti Required Packages
+
+The Cacti required following packages to be installed on your Linux operating systems like RHEL / CentOS / Fedora.
+
+Apache : A Web server to display network graphs created by PHP and RRDTool.
+MySQL : A Database server to store cacti information.
+PHP : A script module to create graphs using RRDTool.
+PHP-SNMP : A PHP extension for SNMP to access data.
+NET-SNMP : A SNMP (Simple Network Management Protocol) is used to manage network.
+RRDTool : A database tool to manage and retrieve time series data like CPU load, Network Bandwidth etc.
+Installing Cacti Required Packages on RHEL / CentOS / Fedora
+First, we need to install following dependency packages one-by-one using YUM package manager tool.
+
+
+
+Install Apache
+
+	# yum install httpd httpd-devel
+	--------- On Fedora 22+ releases --------- 
+	# dnf install httpd httpd-devel
+
+Install Apache in CentOS 6 and 7
+Apache Web Server Installation
+
+
+
+Install MySQL
+
+	# yum install mysql mysql-server      [On RHEL/CentOS 6/5 and Fedora 12-18]
+
+MySQL Installation in CentOS 6
+MySQL Installation
+
+ 
+MariaDB is a community-developed fork of the MySQL database project, and provides a replacement for MySQL. Previously the official supported database was MySQl under RHEL/CentOS 6.x/5.x and Fedora.
+Recently, RedHat makes a new transaction from MySQl to MariaDB, as MariaDB is the default implementation of MySQL in RHEL/CentOS 7.x and Fedora 19 onwards..
+
+	# yum install mariadb-server -y		[On RHEL/CentOS 7.x and Fedora 19 onwards]
+	# dnf install mariadb-server -y         [On Fedora 22+ onwards]
+
+Install MariaDB in CentOS 7
+Installation of MariaDB Database
+
+
+
+Install PHP
+
+	# yum install php-mysql php-pear php-common php-gd php-devel php php-mbstring php-cli
+	--------- On Fedora 22+ releases --------- 
+	# dnf install php-mysql php-pear php-common php-gd php-devel php php-mbstring php-cli
+
+Install PHP in CentOS 6 and 7
+PHP Installation with Modules
+
+
+
+Install PHP-SNMP
+
+	# yum install php-snmp
+	# dnf install php-snmp         [On Fedora 22+ onwards]
+
+Install SNMP in CentOS
+SNMP Installation
+
+
+
+Install NET-SNMP
+	
+	# yum install net-snmp-utils net-snmp-libs
+	# dnf install net-snmp-utils net-snmp-libs         [On Fedora 22+ onwards]
+
+Install SNMP Utils
+Install SNMP Utils
+
+
+
+Install RRDTool
+
+	# yum install rrdtool
+	# dnf install rrdtool         [On Fedora 22+ onwards]
+
+Install Rrdtool
+Install Rrdtool
+
+
+
+
+Staring Apache, MySQL and SNMP Services
+Once you’ve installed all the required software’s for Cacti installation, lets start them one-by-one using following commands.
+
+
+
+On RHEL/CentOS 6.x/5.x and Fedora 18-12
+
+	[root@tecmint ~]# service httpd start
+	[root@tecmint ~]# service mysqld start
+	[root@tecmint ~]# service snmpd start
+
+Start Services in CentOS 6
+Start Services Using init
+
+On RHEL/CentOS 7.x and Fedora 19 Onwards
+
+	[root@tecmint ~]# systemctl start httpd.service
+	[root@tecmint ~]# systemctl start mariadb.service
+	[root@tecmint ~]# systemctl start snmpd.service
+Start Services in CentOS 7
+Start Services Using systemctl
+
+
+
+Configure System Start-up Links
+Configuring Apache, MySQL and SNMP Services to start on boot.
+
+On RHEL/CentOS 6.x/5.x and Fedora 18-12
+
+	[root@tecmint ~]# /sbin/chkconfig --levels 345 httpd on
+	[root@tecmint ~]# /sbin/chkconfig --levels 345 mysqld on
+	[root@tecmint ~]# /sbin/chkconfig --levels 345 snmpd on
+
+Enable Services at Boot in CentOS
+Enable Services at Boot Using chkconfig
+On RHEL/CentOS 7.x and Fedora 19 Onwards
+
+	[root@tecmint ~]# systemctl enable httpd.service
+	[root@tecmint ~]# systemctl enable mariadb.service
+	[root@tecmint ~]# systemctl enable snmpd.service
+
+Enable Services at Boot in CentOS 7
+Enable Services at Boot Using systemctl
+
+
+
+Install Cacti on RHEL / CentOS / Fedora
+Here, you need to install and enable EPEL Repository. Once you’ve enabled repository, type the following command to install Cacti application.
+
+	# yum install cacti
+	# dnf install cacti         [On Fedora 22+ onwards]
+
+Sample Output:
+
+Loaded plugins: fastestmirror, langpacks
+epel/x86_64/metalink                                                                                                                                                  | 4.7 kB  00:00:00
+epel                                                                                                                                                                  | 4.4 kB  00:00:00
+(1/2): epel/x86_64/group_gz                                                                                                                                           | 250 kB  00:00:03
+(2/2): epel/x86_64/primary_db                                                                                                                                         | 4.0 MB  00:02:20
+(1/2): epel/x86_64/updateinfo                                                                                                                                         | 315 kB  00:00:09
+(2/2): epel/x86_64/pkgtags                                                                                                                                            | 1.4 MB  00:00:59
+Loading mirror speeds from cached hostfile
+* base: centos.excellmedia.net
+* epel: ftp.cuhk.edu.hk
+* extras: centos.excellmedia.net
+* updates: centos.excellmedia.net
+Resolving Dependencies
+--> Running transaction check
+---> Package cacti.noarch 0:0.8.8b-7.el7 will be installed
+--> Processing Dependency: rrdtool for package: cacti-0.8.8b-7.el7.noarch
+--> Processing Dependency: net-snmp-utils for package: cacti-0.8.8b-7.el7.noarch
+--> Running transaction check
+---> Package net-snmp-utils.x86_64 1:5.7.2-18.el7 will be installed
+---> Package rrdtool.x86_64 0:1.4.8-8.el7 will be installed
+--> Finished Dependency Resolution
+Dependencies Resolved
+=============================================================================================================================================================================================
+Package                                           Arch                                      Version                                           Repository                               Size
+=============================================================================================================================================================================================
+Installing:
+cacti                                             noarch                                    0.8.8b-7.el7                                      epel                                    2.1 M
+Installing for dependencies:
+net-snmp-utils                                    x86_64                                    1:5.7.2-18.el7                                    base                                    195 k
+rrdtool                                           x86_64                                    1.4.8-8.el7                                       base                                    368 k
+Transaction Summary
+=============================================================================================================================================================================================
+Install  1 Package (+2 Dependent packages)
+Total download size: 2.7 M
+Installed size: 7.2 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/3): net-snmp-utils-5.7.2-18.el7.x86_64.rpm                                                                                                                         | 195 kB  00:00:04
+warning: /var/cache/yum/x86_64/7/epel/packages/cacti-0.8.8b-7.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 352c64e5: NOKEY==============-        ]  56 kB/s | 2.4 MB  00:00:05 ETA
+Public key for cacti-0.8.8b-7.el7.noarch.rpm is not installed
+(2/3): cacti-0.8.8b-7.el7.noarch.rpm                                                                                                                                  | 2.1 MB  00:00:53
+(3/3): rrdtool-1.4.8-8.el7.x86_64.rpm                                                                                                                                 | 368 kB  00:02:47
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                         16 kB/s | 2.7 MB  00:02:47
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+Importing GPG key 0x352C64E5:
+Userid     : "Fedora EPEL (7) <epel@fedoraproject.org>"
+Fingerprint: 91e9 7d7c 4a5e 96f1 7f3e 888f 6a2f aea2 352c 64e5
+Package    : epel-release-7-5.noarch (installed)
+From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+Is this ok [y/N]: y
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+Warning: RPMDB altered outside of yum.
+Installing : rrdtool-1.4.8-8.el7.x86_64                                                                                                                                                1/3
+Installing : 1:net-snmp-utils-5.7.2-18.el7.x86_64                                                                                                                                      2/3
+Installing : cacti-0.8.8b-7.el7.noarch                                                                                                                                                 3/3
+/var/tmp/rpm-tmp.mR0t1v: line 1: fg: no job control
+warning: %post(cacti-0.8.8b-7.el7.noarch) scriptlet failed, exit status 1
+Non-fatal POSTIN scriptlet failure in rpm package cacti-0.8.8b-7.el7.noarch
+Verifying  : 1:net-snmp-utils-5.7.2-18.el7.x86_64                                                                                                                                      1/3
+Verifying  : rrdtool-1.4.8-8.el7.x86_64                                                                                                                                                2/3
+Verifying  : cacti-0.8.8b-7.el7.noarch                                                                                                                                                 3/3
+Installed:
+cacti.noarch 0:0.8.8b-7.el7
+Dependency Installed:
+net-snmp-utils.x86_64 1:5.7.2-18.el7                                                              rrdtool.x86_64 0:1.4.8-8.el7
+Complete!
+
+
+
+Configuring MySQL Server for Cacti Installation
+We need to configure MySQL for Cacti, to do this we need to set password for our newly installed MySQL server and then we will create Cacti database with user Cacti. If you’re MySQL is already password protected, then don’t need to set it again.
+
+Set MySQL Password
+
+To set new password for MySQL server, use the following command. (Note : This is for new MySQL installation only).
+
+	[root@tecmint ~]# mysqladmin -u root password YOUR-PASSWORD-HERE
+
+
+
+Create MySQL Cacti Database
+
+Login into MySQL server with newly created password and create Cacti database with user Cacti and set the password for it.
+
+On RHEL/CentOS 6.x/5.x and Fedora 18-12
+
+	[root@tecmint ~]# mysql -u root -p
+	Enter password:
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.1.73 Source distribution
+Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+	mysql> create database cacti;
+	Query OK, 1 row affected (0.00 sec)
+	mysql> GRANT ALL ON cactidb.* TO usercacti@localhost IDENTIFIED BY 'passwordcacti';
+	Query OK, 0 rows affected (0.00 sec)
+	mysql> FLUSH privileges;
+	Query OK, 0 rows affected (0.00 sec)
+	mysql> quit;
+	Bye
+
+Here “usercacti” is the username and “passwordcacti” is the password to access “cactidb” is the database name.
+
+
+
+On RHEL/CentOS 7.x and Fedora 19 Onwards
+
+	[root@tecmint ~]# mysql -u root -p
+	Enter password:
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 5.5.41-MariaDB MariaDB Server
+Copyright (c) 2000, 2014, Oracle, MariaDB Corporation Ab and others.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+	MariaDB [(none)]> create database cacti;
+	Query OK, 1 row affected (0.00 sec)
+	MariaDB [(none)]> GRANT ALL ON cactidb.* TO usercacti@localhost IDENTIFIED BY 'passwordcacti';
+	Query OK, 0 rows affected (0.00 sec)
+	MariaDB [(none)]> FLUSH privileges;
+	Query OK, 0 rows affected (0.00 sec)
+	MariaDB [(none)]> quit;
+	Bye
+
+Here “usercacti” is the username and “passwordcacti” is the password to access “cactidb” is the database name.
+
+
+
+Install Cacti Tables to MySQL
+
+Find out the database file path using RPM command, to install cacti tables into newly created Cacti database, use the following command.
+
+	# rpm -ql cacti | grep cacti.sql
+
+Sample Output:
+
+	/usr/share/doc/cacti-0.8.8b/cacti.sql
+	OR
+	/usr/share/doc/cacti/cacti.sql
+
+Now we’ve of the location of Cacti.sql file, type the following command to install tables, here you need to type the Cacti user password.
+
+	[root@tecmint ~]# mysql -u cacti -p cacti < /usr/share/doc/cacti-0.8.8b/cacti.sql
+	Enter password:
+
+
+
+Configure MySQL settings for Cacti
+
+Open the file called /etc/cacti/db.php with any editor.
+
+	# vi /etc/cacti/db.php
+
+Make the following changes and save the file. Make sure you set password correctly.
+
+/* make sure these values reflect your actual database/host/user/password */
+
+	$database_type = "mysql";
+	$database_default = "cactidb";
+	$database_hostname = "localhost";
+	$database_username = "usercacti";
+	$database_password = "passwordcacti";
+	$database_port = "3306";
+	$database_ssl = false;
+
+
+
+Configuring Firewall for Cacti
+On RHEL/CentOS 6.x/5.x and Fedora 18-12
+
+	[root@tecmint ~]# iptables -A INPUT -p udp -m state --state NEW --dport 80 -j ACCEPT
+	[root@tecmint ~]# iptables -A INPUT -p tcp -m state --state NEW --dport 80 -j ACCEPT
+	[root@tecmint ~]# service iptables save
+
+On RHEL/CentOS 7.x and Fedora 19 Onwards
+
+	[root@tecmint ~]# firewall-cmd --permanent --zone=public --add-service=http
+	[root@tecmint ~]# firewall-cmd --reload
+
+
+
+Configuring Apache Server for Cacti Installation
+Open file called /etc/httpd/conf.d/cacti.conf with your choice of editor.
+
+	# vi /etc/httpd/conf.d/cacti.conf
+
+You need to enabled access to Cacti application for your local network or per IP level. For example we've enabled access to our local LAN network 172.16.16.0/20. In your case, it would be different.
+
+Alias /cacti    /usr/share/cacti
+ 
+	<Directory /usr/share/cacti/>
+	Order Deny,Allow
+	Deny from all
+	Allow from 172.16.16.0/20
+	</Directory>
+
+In latest version of Apache (ex: Apache 2.4), you may need to change according to the following settings.
+
+	Alias /cacti    /usr/share/cacti
+	<Directory /usr/share/cacti/>
+	<IfModule mod_authz_core.c>
+	# httpd 2.4
+	Require all granted
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+	# httpd 2.2
+	Order deny,allow
+	Deny from all
+	Allow from all
+	</IfModule>
+	</Directory>
+
+Finally, restart the Apache service.
+
+	[root@tecmint ~]# service httpd restart				[On RHEL/CentOS 6.x/5.x and Fedora 18-12]
+	[root@tecmint ~]# systemctl restart httpd.service		[On RHEL/CentOS 7.x and Fedora 19 onwards]
+
+
+
+Setting Cron for Cacti
+Open file /etc/cron.d/cacti.
+
+	# vi /etc/cron.d/cacti
+
+Uncomment the following line. The poller.php script runs every 5mins and collects data of known host which is used by Cacti application to display graphs.
+
+	#*/5 * * * *    cacti   /usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1
+
+
+
+Running Cacti Installer Setup
+
+Finally, Cacti is ready, just go to http://YOUR-IP-HERE/cacti/ & follow the installer instruction through the following screens. Click Next button.
+
+Now open http://serverip/cacti in your browser , you can see the cacti installation page.
+if you are not getting installation page , Disable the firewall ( iptables ) and selinux service on your server .
+
+Disable firewall ( Iptables ) »
+	[root@krizna ~]# service iptables stop
+	[root@krizna ~]# chkconfig iptables off
+
+Disable Selinux » open the file /etc/selinux/config and find the line
+
+	SELINUX=enforcing
+
+	and replace with
+	SELINUX=disabled
+
+now reboot the server and try again.
+
+Cacti Installer Screen
+Cacti Setup Screen
+Please choose installation Type as "New Install".
+
+Cacti New Install Setup
+Select Cacti New Install
+Make sure all the following values are correct before continuing. Click Finish button.
+
+Cacti Installation
+Cacti Installation Directories
+Cacti Login Screen, enter username as admin and password as admin.
+
+Cacti Login Screen
+Cacti Login Screen
+Once you've entered username and password, it will ask you to enter a new password for cacti.
+
+Set Cacti Password
+Cacti Force Password Screen
+Cacti Console Screen.
+
+Cacti Console
+Cacti Console Screen
+How to Create New Graphs
+To create graphs, Click on New Graphs --> Select Host --> Select SNMP - Interface Statistics and Select a graph type In/Out Bits. Click on Create button. Please refer screen below.
+
+Create Graphs in Cacti
+How to Create Graphs in Cacti
+Cacti Monitoring Graphs
+Cacti Monitoring Graphs
+For more information and usage please visit the Cacti Page.
