@@ -1,3 +1,3 @@
 # Installing-Cacti-on-Centos-6.5
 
-Just follow the procedures on Cacti Installation
+  Please follow the procedures on Cacti Installation and Cacti Epel Repository
