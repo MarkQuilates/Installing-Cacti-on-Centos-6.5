@@ -34,8 +34,8 @@ Install MySQL
 
 	# yum install mysql mysql-server      [On RHEL/CentOS 6/5 and Fedora 12-18]
 
-MySQL Installation in CentOS 6
-MySQL Installation
+	MySQL Installation in CentOS 6
+	MySQL Installation
 
  
 MariaDB is a community-developed fork of the MySQL database project, and provides a replacement for MySQL. Previously the official supported database was MySQl under RHEL/CentOS 6.x/5.x and Fedora.
@@ -44,8 +44,8 @@ Recently, RedHat makes a new transaction from MySQl to MariaDB, as MariaDB is th
 	# yum install mariadb-server -y		[On RHEL/CentOS 7.x and Fedora 19 onwards]
 	# dnf install mariadb-server -y         [On Fedora 22+ onwards]
 
-Install MariaDB in CentOS 7
-Installation of MariaDB Database
+	Install MariaDB in CentOS 7
+	Installation of MariaDB Database
 
 
 
@@ -55,9 +55,6 @@ Install PHP
 	--------- On Fedora 22+ releases --------- 
 	# dnf install php-mysql php-pear php-common php-gd php-devel php php-mbstring php-cli
 
-Install PHP in CentOS 6 and 7
-PHP Installation with Modules
-
 
 
 Install PHP-SNMP
@@ -65,8 +62,6 @@ Install PHP-SNMP
 	# yum install php-snmp
 	# dnf install php-snmp         [On Fedora 22+ onwards]
 
-Install SNMP in CentOS
-SNMP Installation
 
 
 
@@ -75,19 +70,12 @@ Install NET-SNMP
 	# yum install net-snmp-utils net-snmp-libs
 	# dnf install net-snmp-utils net-snmp-libs         [On Fedora 22+ onwards]
 
-Install SNMP Utils
-Install SNMP Utils
-
 
 
 Install RRDTool
 
 	# yum install rrdtool
 	# dnf install rrdtool         [On Fedora 22+ onwards]
-
-Install Rrdtool
-Install Rrdtool
-
 
 
 
@@ -98,47 +86,46 @@ Once you’ve installed all the required software’s for Cacti installation, le
 
 On RHEL/CentOS 6.x/5.x and Fedora 18-12
 
+	Start Services in CentOS 6
+	
 	[root@tecmint ~]# service httpd start
 	[root@tecmint ~]# service mysqld start
 	[root@tecmint ~]# service snmpd start
 
-Start Services in CentOS 6
-Start Services Using init
+
 
 On RHEL/CentOS 7.x and Fedora 19 Onwards
+
+	Start Services in CentOS 7
 
 	[root@tecmint ~]# systemctl start httpd.service
 	[root@tecmint ~]# systemctl start mariadb.service
 	[root@tecmint ~]# systemctl start snmpd.service
-Start Services in CentOS 7
-Start Services Using systemctl
 
 
 
 Configure System Start-up Links
 Configuring Apache, MySQL and SNMP Services to start on boot.
 
-On RHEL/CentOS 6.x/5.x and Fedora 18-12
+Enable Services at Boot in CentOS
+Enable Services at Boot Using chkconfig
+
+	On RHEL/CentOS 6.x/5.x and Fedora 18-12
 
 	[root@tecmint ~]# /sbin/chkconfig --levels 345 httpd on
 	[root@tecmint ~]# /sbin/chkconfig --levels 345 mysqld on
 	[root@tecmint ~]# /sbin/chkconfig --levels 345 snmpd on
 
-Enable Services at Boot in CentOS
-Enable Services at Boot Using chkconfig
-On RHEL/CentOS 7.x and Fedora 19 Onwards
+	On RHEL/CentOS 7.x and Fedora 19 Onwards
 
 	[root@tecmint ~]# systemctl enable httpd.service
 	[root@tecmint ~]# systemctl enable mariadb.service
 	[root@tecmint ~]# systemctl enable snmpd.service
 
-Enable Services at Boot in CentOS 7
-Enable Services at Boot Using systemctl
-
 
 
 Install Cacti on RHEL / CentOS / Fedora
-Here, you need to install and enable EPEL Repository. Once you’ve enabled repository, type the following command to install Cacti application.
+Here, you need to install and enable EPEL Repository, please see the procedure on "Cacti EPEL Repository" . Once you’ve enabled repository, type the following command to install Cacti application.
 
 	# yum install cacti
 	# dnf install cacti         [On Fedora 22+ onwards]
